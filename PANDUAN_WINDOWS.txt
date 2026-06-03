@@ -1,0 +1,72 @@
+========================================================================
+PANDUAN MENJALANKAN APLIKASI RETENSI REKAM MEDIS DI WINDOWS & JARINGAN LOKAL
+========================================================================
+
+Aplikasi ini telah dirancang menggunakan Laravel & Livewire dengan database SQLite. 
+Karena menggunakan SQLite, database sudah berbentuk file tunggal di dalam proyek (database/database.sqlite).
+Anda TIDAK PERLU menginstal DBngin atau MySQL. Ini membuat pemindahan proyek menjadi sangat mudah.
+
+Berikut adalah langkah-langkah untuk menjalankan aplikasi di komputer Windows (sebagai Server)
+dan cara mengaksesnya dari laptop lain (Client) dalam satu jaringan Wi-Fi/LAN.
+
+------------------------------------------------------------------------
+LANGKAH 1: PERSIAPAN DI WINDOWS (HOST / SERVER)
+------------------------------------------------------------------------
+1. Unduh dan instal Laravel Herd untuk Windows dari situs resmi:
+   https://herd.laravel.com
+   (Herd akan menginstal PHP, Composer, dan Node.js/NPM secara otomatis).
+
+2. Salin seluruh folder proyek ini ke komputer Windows Anda.
+
+3. Buka Terminal di Windows (bisa menggunakan PowerShell atau Command Prompt) 
+   dan arahkan ke dalam folder proyek ini.
+
+4. Jalankan perintah berikut untuk menginstal dependensi PHP:
+   composer install
+
+5. Jalankan perintah berikut untuk menginstal dependensi asset/front-end & melakukan compile:
+   npm install
+   npm run build
+
+6. Buat tautan penyimpanan (storage link) agar file PDF rekam medis bisa diakses publik:
+   php artisan storage:link
+
+7. (Opsional jika ingin database baru) Jika ingin mengulang database atau seed ulang admin:
+   php artisan migrate:fresh --seed
+   * Akun login default:
+     Username: admin
+     Password: admin123
+
+------------------------------------------------------------------------
+LANGKAH 2: CARA MENGETAHUI IP ADDRESS WINDOWS SERVER
+------------------------------------------------------------------------
+Agar laptop client bisa mengakses aplikasi, Anda harus mengetahui alamat IP lokal komputer Windows Server Anda:
+1. Buka Command Prompt (cmd) di Windows Server.
+2. Ketik perintah:
+   ipconfig
+3. Cari bagian "Wireless LAN adapter Wi-Fi" atau "Ethernet adapter".
+4. Catat alamat "IPv4 Address" yang tertera (contoh: 192.168.1.15).
+
+------------------------------------------------------------------------
+LANGKAH 3: MENJALANKAN APLIKASI UNTUK JARINGAN LOKAL
+------------------------------------------------------------------------
+Agar aplikasi dapat diakses oleh komputer lain di jaringan lokal, Anda harus menjalankan server 
+dengan host bind ke "0.0.0.0".
+1. Di PowerShell/CMD proyek Anda, jalankan perintah berikut:
+   php artisan serve --host=0.0.0.0 --port=8000
+
+2. Jika muncul peringatan "Windows Defender Firewall" (Security Alert), 
+   centang kedua opsi (Private & Public networks) lalu klik "Allow Access".
+
+------------------------------------------------------------------------
+LANGKAH 4: MENGAKSES DARI LAPTOP CLIENT
+------------------------------------------------------------------------
+1. Pastikan laptop Client dan komputer Windows Server terhubung ke Wi-Fi atau jaringan LAN yang SAMA.
+2. Buka browser (Chrome/Edge/Firefox) di laptop Client.
+3. Masukkan URL berikut di address bar:
+   http://[IP-ADDRESS-SERVER]:8000
+   
+   (Ganti [IP-ADDRESS-SERVER] dengan IP yang Anda catat di Langkah 2, contoh: http://192.168.1.15:8000)
+
+4. Selamat! Aplikasi Retensi Rekam Medis siap digunakan bersama-sama di jaringan lokal Anda.
+========================================================================

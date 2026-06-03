@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project specific
+uploads/berkas/*
+!uploads/berkas/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
