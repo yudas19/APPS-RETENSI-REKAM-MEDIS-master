@@ -51,6 +51,10 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php -r \"file_exists('bootstrap/cache') || mkdir('bootstrap/cache', 0775, true);\"",
+            "@php -r \"file_exists('storage/framework/cache/data') || mkdir('storage/framework/cache/data', 0775, true);\"",
+            "@php -r \"file_exists('storage/framework/sessions') || mkdir('storage/framework/sessions', 0775, true);\"",
+            "@php -r \"file_exists('storage/framework/views') || mkdir('storage/framework/views', 0775, true);\"",
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
