@@ -238,7 +238,7 @@ new class extends Component
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Pasien</th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Tgl Lahir</th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Tgl Retensi</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Terakhir Kunjungan</th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">File PDF</th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-36">Aksi</th>
                     </tr>
@@ -255,8 +255,13 @@ new class extends Component
                             <td class="px-6 py-4 text-sm font-medium text-slate-700">
                                 {{ $row->nama_pasien }}
                             </td>
-                            <td class="px-6 py-4 text-sm text-slate-500 font-medium">
-                                {{ $row->tgl_lahir ? $row->tgl_lahir->format('d/m/Y') : '-' }}
+                            <td class="px-6 py-4 text-sm text-slate-750 font-semibold">
+                                @if($row->tgl_lahir)
+                                    <div>{{ $row->tgl_lahir->format('d/m/Y') }}</div>
+                                    <div class="text-xs text-slate-400 font-normal mt-0.5">{{ $row->usia }} Tahun</div>
+                                @else
+                                    <span class="text-slate-400">-</span>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 @php

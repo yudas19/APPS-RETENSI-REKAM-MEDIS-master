@@ -21,6 +21,18 @@ new class extends Component
     public $file_pdf;
     public ?string $existingFilePdf = null;
 
+    public function getUsia()
+    {
+        if (empty($this->tgl_lahir)) {
+            return null;
+        }
+        try {
+            return \Carbon\Carbon::parse($this->tgl_lahir)->age;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
     // Search patient lookup
     public string $searchPatient = '';
     public array $patientSuggestions = [];
@@ -197,8 +209,15 @@ new class extends Component
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Lahir</label>
-                    <input type="date" wire:model="tgl_lahir" 
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-semibold text-slate-700">Tanggal Lahir</label>
+                        @if ($this->tgl_lahir)
+                            <span class="text-xs font-bold bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-lg border border-blue-100">
+                                Usia: {{ $this->getUsia() }} Tahun
+                            </span>
+                        @endif
+                    </div>
+                    <input type="date" wire:model.live="tgl_lahir" 
                            class="w-full px-4 py-3 border-2 border-slate-100 bg-slate-50 focus:bg-white rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-slate-800">
                     @error('tgl_lahir') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
                 </div>
@@ -215,15 +234,9 @@ new class extends Component
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Berkas / Kode RM</label>
-                    <input type="text" wire:model="nama_berkas"
-                           class="w-full px-4 py-3 border-2 border-slate-100 bg-slate-50 focus:bg-white rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-slate-800"
-                           placeholder="Contoh: Berkas RJ 2025">
-                    @error('nama_berkas') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Retensi (Rencana Pemusnahan)</label>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Terakhir Kunjungan</label>
                     <input type="date" wire:model="tgl_retensi" 
                            class="w-full px-4 py-3 border-2 border-slate-100 bg-slate-50 focus:bg-white rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-slate-800">
                     @error('tgl_retensi') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror

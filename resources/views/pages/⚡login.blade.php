@@ -36,9 +36,15 @@ new class extends Component
             <div class="mb-4">
                 <img src="{{ asset('assets/images/logo.png') }}" alt="Klinik Kolbu Logo" class="h-20 object-contain mx-auto">
             </div>
-            <h1 class="text-2xl font-bold text-slate-800 tracking-tight">RETENSI RM KLINIK KOLBU</h1>
+            <h1 class="text-2xl font-bold text-slate-800 tracking-tight">RETENSI RM</h1>
             <p class="text-slate-500 mt-2 text-sm font-medium">Silakan masuk untuk mengelola rekam medis</p>
         </div>
+        
+        @if (session()->has('success'))
+            <div class="bg-green-50 border border-green-100 text-green-700 px-4 py-3 rounded-2xl text-sm font-medium mb-5">
+                {{ session('success') }}
+            </div>
+        @endif
         
         <form wire:submit="login" class="space-y-5">
             <div>
@@ -57,7 +63,10 @@ new class extends Component
             </div>
             
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                <div class="flex justify-between items-center mb-2">
+                    <label class="block text-sm font-semibold text-slate-700">Password</label>
+                    <a href="/forgot-password" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">Lupa Password?</a>
+                </div>
                 <div class="relative">
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

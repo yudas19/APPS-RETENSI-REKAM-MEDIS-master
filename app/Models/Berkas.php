@@ -22,6 +22,17 @@ class Berkas extends Model
     }
 
     /**
+     * Get the patient's age in years.
+     */
+    public function getUsiaAttribute(): ?int
+    {
+        if (!$this->tgl_lahir) {
+            return null;
+        }
+        return $this->tgl_lahir->age;
+    }
+
+    /**
      * The attributes that should be cast.
      *
      * @return array<string, string>

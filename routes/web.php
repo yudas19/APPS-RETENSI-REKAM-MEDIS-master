@@ -4,15 +4,18 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 // Redirect home to dashboard
-Route::redirect('/', '/dashboard');
+Route::redirect('/', '/home');
 
 // Guest routes
 Route::middleware('guest')->group(function () {
     Route::livewire('/login', 'pages::login')->name('login');
+    Route::livewire('/forgot-password', 'pages::forgot-password')->name('password.request');
+    Route::livewire('/reset-password/{token}', 'pages::reset-password')->name('password.reset');
 });
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
+    Route::livewire('/home', 'pages::home')->name('home');
     Route::livewire('/dashboard', 'pages::dashboard')->name('dashboard');
     Route::livewire('/berkas/create', 'pages::berkas-form')->name('berkas.create');
     Route::livewire('/berkas/{id}/edit', 'pages::berkas-form')->name('berkas.edit');

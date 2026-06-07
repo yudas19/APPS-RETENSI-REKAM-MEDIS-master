@@ -1,7 +1,0 @@
-Options -Indexes
-DirectoryIndex index.php
-
-<FilesMatch "\.(sql|log|ini)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>

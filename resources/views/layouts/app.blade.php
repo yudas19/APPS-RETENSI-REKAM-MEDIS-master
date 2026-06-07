@@ -15,10 +15,11 @@
 <body class="h-full overflow-hidden text-slate-800">
     <div class="flex h-full">
         <!-- Sidebar -->
+        @auth
         <aside class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
             <!-- Brand Logo and Header -->
             <div class="p-6 border-b border-slate-800">
-                <a href="/dashboard" class="flex items-center gap-3 group">
+                <a href="/home" class="flex items-center gap-3 group">
                     <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1 shadow-md group-hover:scale-105 transition-all duration-300">
                         <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="w-full h-full object-contain">
                     </div>
@@ -31,12 +32,19 @@
             
             <!-- Navigation -->
             <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
-                <a href="/dashboard" class="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->is('dashboard') && !request()->has('filter') ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'hover:bg-slate-800/60 text-slate-400 hover:text-white' }}">
+                <a href="/home" class="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->is('home') ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'hover:bg-slate-800/60 text-slate-400 hover:text-white' }}">
+                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    <span class="font-medium text-sm">Home</span>
+                </a>
+
+                <!-- <a href="/dashboard" class="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->is('dashboard') && !request()->has('filter') ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'hover:bg-slate-800/60 text-slate-400 hover:text-white' }}">
                     <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                     </svg>
                     <span class="font-medium text-sm">Dashboard</span>
-                </a>
+                </a> -->
                 
                 <a href="/dashboard?filter=Aktif" class="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->get('filter') == 'Aktif' ? 'bg-slate-800 text-white border-l-4 border-green-500 pl-3' : 'hover:bg-slate-800/60 text-slate-400 hover:text-white' }}">
                     <svg class="w-5 h-5 text-green-400 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,6 +106,7 @@
             </div>
             @endauth
         </aside>
+        @endauth
 
         <!-- Main Content Panel -->
         <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
