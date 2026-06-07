@@ -77,6 +77,7 @@ new class extends Component
             $query->where(function ($q) {
                 $q->where('no_rm', 'like', '%' . $this->search . '%')
                   ->orWhere('nama_pasien', 'like', '%' . $this->search . '%')
+                  ->orWhere('alamat', 'like', '%' . $this->search . '%')
                   ->orWhere('keterangan', 'like', '%' . $this->search . '%');
             });
         }
@@ -253,7 +254,10 @@ new class extends Component
                                 {{ $row->no_rm }}
                             </td>
                             <td class="px-6 py-4 text-sm font-medium text-slate-700">
-                                {{ $row->nama_pasien }}
+                                <div class="font-bold text-slate-800">{{ $row->nama_pasien }}</div>
+                                @if ($row->alamat)
+                                    <div class="text-xs text-slate-400 font-normal mt-0.5"><span class="font-semibold text-slate-500">Alamat:</span> {{ $row->alamat }}</div>
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-sm text-slate-750 font-semibold">
                                 @if($row->tgl_lahir)

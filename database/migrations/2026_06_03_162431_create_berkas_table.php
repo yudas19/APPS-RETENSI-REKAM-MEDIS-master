@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('no_rm', 20);
             $table->string('nama_pasien', 100);
             $table->date('tgl_lahir')->nullable();
+            $table->text('alamat')->nullable();
             $table->string('nama_berkas', 100)->nullable();
             $table->string('file_pdf', 255)->nullable();
             $table->enum('status', ['Aktif', 'Inaktif', 'Musnah'])->default('Aktif');

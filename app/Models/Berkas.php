@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['no_rm', 'nama_pasien', 'tgl_lahir', 'nama_berkas', 'file_pdf', 'status', 'tgl_retensi', 'keterangan', 'created_by'])]
+#[Fillable(['no_rm', 'nama_pasien', 'tgl_lahir', 'alamat', 'nama_berkas', 'file_pdf', 'status', 'tgl_retensi', 'keterangan', 'created_by'])]
 class Berkas extends Model
 {
     use HasFactory;

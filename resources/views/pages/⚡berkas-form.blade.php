@@ -14,6 +14,7 @@ new class extends Component
     public string $no_rm = '';
     public string $nama_pasien = '';
     public ?string $tgl_lahir = null;
+    public string $alamat = '';
     public string $nama_berkas = '';
     public string $status = 'Aktif';
     public ?string $tgl_retensi = null;
@@ -45,6 +46,7 @@ new class extends Component
             $this->no_rm = $berkas->no_rm;
             $this->nama_pasien = $berkas->nama_pasien;
             $this->tgl_lahir = $berkas->tgl_lahir ? $berkas->tgl_lahir->format('Y-m-d') : null;
+            $this->alamat = $berkas->alamat ?? '';
             $this->nama_berkas = $berkas->nama_berkas ?? '';
             $this->status = $berkas->status;
             $this->tgl_retensi = $berkas->tgl_retensi ? $berkas->tgl_retensi->format('Y-m-d') : null;
@@ -62,7 +64,7 @@ new class extends Component
 
         $this->patientSuggestions = Berkas::where('nama_pasien', 'like', "%{$value}%")
             ->orWhere('no_rm', 'like', "%{$value}%")
-            ->select('no_rm', 'nama_pasien', 'tgl_lahir')
+            ->select('no_rm', 'nama_pasien', 'tgl_lahir', 'alamat')
             ->distinct()
             ->limit(5)
             ->get()
@@ -71,16 +73,18 @@ new class extends Component
                     'no_rm' => $item->no_rm,
                     'nama_pasien' => $item->nama_pasien,
                     'tgl_lahir' => $item->tgl_lahir ? $item->tgl_lahir->format('Y-m-d') : null,
+                    'alamat' => $item->alamat ?? '',
                 ];
             })
             ->toArray();
     }
 
-    public function selectPatient($no_rm, $nama_pasien, $tgl_lahir)
+    public function selectPatient($no_rm, $nama_pasien, $tgl_lahir, $alamat)
     {
         $this->no_rm = $no_rm;
         $this->nama_pasien = $nama_pasien;
         $this->tgl_lahir = $tgl_lahir;
+        $this->alamat = $alamat;
         $this->patientSuggestions = [];
         $this->searchPatient = '';
     }
@@ -91,6 +95,7 @@ new class extends Component
             'no_rm' => 'required|string|max:20',
             'nama_pasien' => 'required|string|max:100',
             'tgl_lahir' => 'nullable|date',
+            'alamat' => 'nullable|string',
             'nama_berkas' => 'nullable|string|max:100',
             'status' => 'required|in:Aktif,Inaktif,Musnah',
             'tgl_retensi' => 'nullable|date',
@@ -118,6 +123,7 @@ new class extends Component
         $berkas->no_rm = $this->no_rm;
         $berkas->nama_pasien = $this->nama_pasien;
         $berkas->tgl_lahir = $this->tgl_lahir ? $this->tgl_lahir : null;
+        $berkas->alamat = $this->alamat;
         $berkas->nama_berkas = $this->nama_berkas;
         $berkas->file_pdf = $filename;
         $berkas->status = $this->status;
@@ -173,7 +179,7 @@ new class extends Component
                     <div class="absolute z-20 left-4 right-4 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden divide-y divide-slate-100">
                         @foreach ($patientSuggestions as $patient)
                             <button type="button" 
-                                    wire:click="selectPatient('{{ $patient['no_rm'] }}', '{{ $patient['nama_pasien'] }}', '{{ $patient['tgl_lahir'] }}')"
+                                    wire:click="selectPatient('{{ $patient['no_rm'] }}', '{{ $patient['nama_pasien'] }}', '{{ $patient['tgl_lahir'] }}', '{{ addslashes($patient['alamat']) }}')"
                                     class="w-full px-4 py-3 text-left hover:bg-blue-50/70 flex justify-between items-center transition-colors">
                                 <div>
                                     <p class="font-bold text-slate-800 text-sm">{{ $patient['nama_pasien'] }}</p>
@@ -205,6 +211,14 @@ new class extends Component
                            placeholder="Nama lengkap pasien">
                     @error('nama_pasien') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
                 </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Alamat Pasien</label>
+                <textarea wire:model="alamat" rows="2" 
+                          class="w-full px-4 py-3 border-2 border-slate-100 bg-slate-50 focus:bg-white rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all resize-none text-slate-800"
+                          placeholder="Masukkan alamat lengkap pasien"></textarea>
+                @error('alamat') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
